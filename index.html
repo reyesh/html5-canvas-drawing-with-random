@@ -4,26 +4,82 @@
 <head>
 </head>
 <body>
-  <canvas id="c" width="400" height="200"></canvas>
+  <canvas id="c" width="400" height="400"></canvas>
 
   <script>
     var c = document.querySelector("#c");
     var ctx = c.getContext("2d");
-    ctx.fillRect(100,100,100,100);
-    var image = new Image();
 
-    image.onload = function(){
-      console.log("loaded image");
-      ctx.drawImage(image,0,0,c.width+100,c.height);
-      // var savedImage = c.toDataURL();
-      // window.open(savedImage);
-      ctx.fillStyle="red";
-      ctx.fillRect(100,100,100,100);
-      ctx.clearRect(0,0,100,100);
+
+    //ctx.strokeRect(25,25,450, 450);
+    var colors = ["blue","red","orange","green","yellow"];
+  //  var colors = ["blue","red","orange","green","yellow","black"];
+  //  var colors = ["teal","#FF3366","teal","#FF3366","yellow"];
+    var colors = ["blue","red","black","black"];
+    //var colors = ["blue","red","green","yellow","orange","black","black","black","black","black","black"];
+
+
+
+
+    for(i=0;i<100000;i++){
+      var y = Math.floor(Math.random()*(400)+1);
+      var x = Math.floor(Math.random()*(400)+1);
+
+      var rColor = Math.floor(Math.random()*(colors.length));
+
+      var x1 = Math.floor(Math.random()*(400)+1);
+      var y1 = Math.floor(Math.random()*(400)+1);
+
+      var x2 = Math.floor(Math.random()*(400)+1);
+      var y2 = Math.floor(Math.random()*(400)+1);
+
+      var x3 = Math.floor(Math.random()*(400)+1);
+      var y3 = Math.floor(Math.random()*(400)+1);
+
+      var x4 = Math.floor(Math.random()*(400)+1);
+      var y4 = Math.floor(Math.random()*(400)+1);
+
+      var x5 = Math.floor(Math.random()*(400)+1);
+      var y5 = Math.floor(Math.random()*(400)+1);
+
+      var stx = Math.floor(Math.random()*(80)+1);
+      var sty = Math.floor(Math.random()*(80)+1);
+
+      ctx.strokeStyle = colors[rColor];
+      ctx.lineWidth=.05;
+      ctx.beginPath();
+      ctx.moveTo(x,y);
+      //ctx.moveTo(200,200);
+
+      //ctx.lineTo(x+stx,y+sty);
+      ctx.lineTo(x2,y2);
+      ctx.lineTo(y3,y3);
+      ctx.lineTo(y4,y4);
+      ctx.lineTo(y5,y5);
+      ctx.lineTo(x,y);
+      ctx.stroke();
+/*
+      var rColor = Math.floor(Math.random()*(colors.length));
+      ctx.strokeStyle = colors[rColor];
+      ctx.beginPath();
+      ctx.moveTo(x+2,y+2);
+      ctx.lineTo(x1+2,y1+2);
+      ctx.lineTo(x2+2,y2+2);
+      ctx.lineTo(y3+2,y3+2);
+      ctx.lineTo(y4+2,y4+2);
+      ctx.lineTo(y5+2,y5+2);
+      ctx.lineTo(x+2,y+2);
+      ctx.stroke(); */
 
     }
 
-    image.src = "logo.jpg";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth=20;
+    ctx.strokeRect(0,0,400,400);
+    ctx.scale(2,3);
+
+
+
   </script>
 </body>
 </html>
