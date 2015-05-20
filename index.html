@@ -9,12 +9,18 @@
   <script>
     var c = document.querySelector("#c");
     var ctx = c.getContext("2d");
-
+    ctx.fillRect(100,100,100,100);
     var image = new Image();
 
     image.onload = function(){
       console.log("loaded image");
       ctx.drawImage(image,0,0,c.width+100,c.height);
+      // var savedImage = c.toDataURL();
+      // window.open(savedImage);
+      ctx.fillStyle="red";
+      ctx.fillRect(100,100,100,100);
+      ctx.clearRect(0,0,100,100);
+
     }
 
     image.src = "logo.jpg";
