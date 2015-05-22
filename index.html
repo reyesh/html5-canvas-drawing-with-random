@@ -12,66 +12,136 @@
 
 
     //ctx.strokeRect(25,25,450, 450);
-    var colors = ["blue","red","orange","green","yellow"];
+  //  var colors = ["blue","red","orange","green","yellow"];
   //  var colors = ["blue","red","orange","green","yellow","black"];
   //  var colors = ["teal","#FF3366","teal","#FF3366","yellow"];
-    var colors = ["blue","red","black","black"];
-    //var colors = ["blue","red","green","yellow","orange","black","black","black","black","black","black"];
+    //var colors = ["blue","red","black","black"];
+    var colors = ["blue","red","green","yellow","orange"];
+
+    ctx.fillStyle = "black";
+    //ctx.lineWidth=20;
+    ctx.fillRect(0,0,400,400);
+    //ctx.scale(2,3);
+
+    function randomNum(num){
+      return Math.floor(Math.random()*(num));
+    }
+
+    rColor = colors[randomNum(colors.length)];
+
+/*
+    for(i=0;i<300;i++){
+      var y = randomNum(400);
+      var x = randomNum(400);
+      var y2 = randomNum(400);
+      var x2 = randomNum(400);
+      var y3 = randomNum(400);
+      var x3 = randomNum(400);
+      var y4 = randomNum(400);
+      var x4 = randomNum(400);
 
 
+      ctx.strokeStyle = rColor;
+      ctx.fillStyle = rColor;
 
-
-    for(i=0;i<100000;i++){
-      var y = Math.floor(Math.random()*(400)+1);
-      var x = Math.floor(Math.random()*(400)+1);
-
-      var rColor = Math.floor(Math.random()*(colors.length));
-
-      var x1 = Math.floor(Math.random()*(400)+1);
-      var y1 = Math.floor(Math.random()*(400)+1);
-
-      var x2 = Math.floor(Math.random()*(400)+1);
-      var y2 = Math.floor(Math.random()*(400)+1);
-
-      var x3 = Math.floor(Math.random()*(400)+1);
-      var y3 = Math.floor(Math.random()*(400)+1);
-
-      var x4 = Math.floor(Math.random()*(400)+1);
-      var y4 = Math.floor(Math.random()*(400)+1);
-
-      var x5 = Math.floor(Math.random()*(400)+1);
-      var y5 = Math.floor(Math.random()*(400)+1);
-
-      var stx = Math.floor(Math.random()*(80)+1);
-      var sty = Math.floor(Math.random()*(80)+1);
-
-      ctx.strokeStyle = colors[rColor];
-      ctx.lineWidth=.05;
-      ctx.beginPath();
+      ctx.lineWidth=.2;
+      /* ctx.beginPath();
       ctx.moveTo(x,y);
-      //ctx.moveTo(200,200);
 
-      //ctx.lineTo(x+stx,y+sty);
       ctx.lineTo(x2,y2);
-      ctx.lineTo(y3,y3);
-      ctx.lineTo(y4,y4);
-      ctx.lineTo(y5,y5);
+      ctx.lineTo(x3,y3);
+      ctx.lineTo(x4,y4);
+
       ctx.lineTo(x,y);
       ctx.stroke();
-/*
-      var rColor = Math.floor(Math.random()*(colors.length));
-      ctx.strokeStyle = colors[rColor];
-      ctx.beginPath();
-      ctx.moveTo(x+2,y+2);
-      ctx.lineTo(x1+2,y1+2);
-      ctx.lineTo(x2+2,y2+2);
-      ctx.lineTo(y3+2,y3+2);
-      ctx.lineTo(y4+2,y4+2);
-      ctx.lineTo(y5+2,y5+2);
-      ctx.lineTo(x+2,y+2);
-      ctx.stroke(); */
 
+      ctx.beginPath();
+      ctx.arc(x,y,randomNum(5),0,(360 * (Math.PI/180)));
+      ctx.fill()
+
+      ctx.beginPath();
+      ctx.arc(x2,y2,randomNum(5),0,(360 * (Math.PI/180)));
+      ctx.fill()
+
+      ctx.beginPath();
+      ctx.arc(x3,y3,randomNum(5),0,(360 * (Math.PI/180)));
+      ctx.fill()
+
+      ctx.beginPath();
+      ctx.arc(x4,y4,randomNum(5),0,(360 * (Math.PI/180)));
+      ctx.fill()
+
+
+      ctx.beginPath();
+      ctx.moveTo(200, 0);
+      ctx.bezierCurveTo(randomNum(100), randomNum(400), randomNum(4000), randomNum(400), randomNum(400), randomNum(40));
+      ctx.stroke();
     }
+*/
+
+  function bezierDraw (l){
+
+    for(i=0;i<l;i++){
+      rColor = colors[randomNum(colors.length)];
+      ctx.strokeStyle = rColor;
+      ctx.fillStyle = rColor;
+      ctx.lineWidth=2;
+      ctx.beginPath();
+      ctx.moveTo(randomNum(400), randomNum(400));
+      ctx.bezierCurveTo(randomNum(400), randomNum(400), randomNum(400), randomNum(400), randomNum(400), randomNum(400));
+      ctx.stroke();
+    }
+  }
+
+  function bezierDraw2 (l,x,y,c,ss){
+  //  c = colors[randomNum(colors.length)];
+    ctx.strokeStyle = c;
+    ctx.lineWidth=ss;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+
+    var ex = randomNum(400);
+    var ey = randomNum(400);
+
+    if(l==0){
+      ctx.bezierCurveTo(x, y, randomNum(400), randomNum(400), ex, ey);
+      ctx.stroke();
+    } else {
+      l=l-1;
+      ctx.bezierCurveTo(x, y, randomNum(400), randomNum(400), ex, ey);
+      ctx.stroke();
+      bezierDraw2(l,ex,ey,c);
+    }
+
+  /*  for(i=0;i<l;i++){
+      var x = randomNum(400);
+      var y = randomNum(400);
+
+      var x2 = randomNum(400);
+      var y2 = randomNum(400);
+
+      rColor = colors[randomNum(colors.length)];
+      ctx.strokeStyle = rColor;
+      ctx.fillStyle = rColor;
+      ctx.lineWidth=2;
+      ctx.beginPath();
+      ctx.moveTo(randomNum(400), randomNum(400));
+      ctx.bezierCurveTo(x, y, randomNum(400), randomNum(400), x2, y2);
+      ctx.stroke();
+    }  */
+
+  }
+
+    var x = randomNum(400);
+    var y = randomNum(400);
+    //bezierDraw(3);
+    bezierDraw2(3000,x,y,"blue",.2);
+    bezierDraw2(1000,x,y,"green",.5);
+    bezierDraw2(300,x,y,"red",1);
+    bezierDraw2(9,x,y,"yellow",3);
+
+    //bezierDraw2(150,x,y,"yellow",1);
+    //bezierDraw2(400,x,y,"white",.5);
 
     ctx.strokeStyle = "black";
     ctx.lineWidth=20;
