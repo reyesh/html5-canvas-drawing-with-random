@@ -5,10 +5,16 @@
 </head>
 <body>
   <canvas id="c" width="400" height="400"></canvas>
+  <hr>
+  <canvas id="d" width="590" height="400"></canvas>
 
   <script>
     var c = document.querySelector("#c");
     var ctx = c.getContext("2d");
+
+    var d = document.querySelector("#d");
+    var ctxd = d.getContext("2d");
+
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineWidth=1;
@@ -39,24 +45,24 @@
     }
   }
 
-  function bezierDraw2 (l,x,y,c,ss){
+  function bezierDraw2 (l,x,y,c,ss,fctx){
 
-    ctx.strokeStyle=c;
-    ctx.lineWidth=ss;
-    ctx.beginPath();
-    ctx.moveTo(x, y);
+    fctx.strokeStyle=c;
+    fctx.lineWidth=ss;
+    fctx.beginPath();
+    fctx.moveTo(x, y);
 
-    var ex = randomNum(400);
+    var ex = randomNum(590);
     var ey = randomNum(400);
 
     if(l==0){
-      ctx.bezierCurveTo(x, y, randomNum(400), randomNum(400), ex, ey);
-      ctx.stroke();
+      fctx.bezierCurveTo(x, y, randomNum(400), randomNum(400), ex, ey);
+      fctx.stroke();
     } else {
       l=l-1;
-      ctx.bezierCurveTo(x, y, randomNum(400), randomNum(400), ex, ey);
-      ctx.stroke();
-      bezierDraw2(l,ex,ey,c,ss);
+      fctx.bezierCurveTo(x, y, randomNum(400), randomNum(400), ex, ey);
+      fctx.stroke();
+      bezierDraw2(l,ex,ey,c,ss,fctx);
     }
 
   }
@@ -104,10 +110,54 @@
     }
 
   }
+
+  function cirs (c,x,y,rs){
+
+  //  var f;
+    console.log(rs + " " + f);
+
+//    ctx.beginPath();
+  //  ctx.moveTo(x, y);
+
+  ctx.beginPath();
+  ctx.strokeStyle=c;
+  //ctx.fillStyle="red";
+  ctx.lineWidth=.5;
+
+    if(rs <= 0){
+      rs = 0;
+      ctx.arc(x,y,rs,0,360,rs);
+      ctx.stroke();
+    }else{
+      rs=rs-20;
+      ctx.arc(x,y,rs,0,360);
+      if(f){
+        ctx.fill();
+        f=false;
+      }else{
+        ctx.stroke();
+        f=true;
+      }
+      cirs(c,x,y,rs);
+    }
+
+  }
     var x = randomNum(400);
     var y = randomNum(400);
 
-    cireverywhere(200,"red",200,200);
+  //  cireverywhere(200,"red",200,200);
+
+  var f =false;
+  cirs("green",200,200,300);
+
+  ctxd.strokeStyle = "black";
+  ctxd.lineWidth=30;
+  ctxd.fillRect(0,0,590,400);
+
+  bezierDraw2(4500,295,200,"blue",1,ctxd);
+  bezierDraw2(1500,295,200,"green",1,ctxd);
+  bezierDraw2(300,295,200,"red",1,ctxd);
+
 
   //  ctx.strokeStyle="red";
     //ctx.moveTo(0,0);
