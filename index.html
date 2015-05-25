@@ -20,7 +20,7 @@
     ctx.lineWidth=1;
 
 
-    var colors = ["blue","red","green","yellow","orange"];
+    var colors = ["blue","red","green","yellow","orange","black"];
 
     ctx.fillStyle = "white";
     ctx.fillRect(0,0,400,400);
@@ -154,6 +154,40 @@
     }
 
   }
+
+
+  function circlesFBS (la,c,x,y,fctx){
+    var x2 = randomNum(400);
+    var y2 = randomNum(400);
+    var sa = 0; //randomNumBetween(350,360);
+    var ea = 360; //randomNumBetween(350,360);
+    var rs = randomNumBetween(1,8);
+
+    fctx.beginPath();
+    fctx.strokeStyle="white";
+    fctx.fillStyle=c;
+    fctx.fillStyle=colors[randomNum(colors.length)];
+
+    fctx.lineWidth=3;
+//    ctx.beginPath();
+  //  ctx.moveTo(x, y);
+    l=la.length;
+
+    if(l==0){
+      fctx.arc(x,y,la[l],r2degrees(sa),r2degrees(ea));
+      fctx.stroke();
+      fctx.fill();
+    }else{
+      l=l-1;
+      fctx.arc(x,y,la[l],r2degrees(sa),r2degrees(ea));
+      fctx.stroke();
+      fctx.fill();
+      la.pop();
+      circlesFBS(la,c,x2,y2,fctx);
+    }
+
+  }
+
     var x = randomNum(400);
     var y = randomNum(400);
 
@@ -164,13 +198,17 @@
   //circlesEverywhere(200,"red",200,200,ctx);
   //circlesEverywhere(200,"green",200,200,ctx);
   //circlesEverywhere(200,"blue",200,200,ctx);
+  /*
   circlesEverywhere(300,"yellow",200,200,ctx);
   circlesEverywhere(200,"green",200,200,ctx);
   circlesEverywhere(200,"red",200,200,ctx);
   circlesEverywhere(300,"black",200,200,ctx);
+  */
+  n = [50];
+  circlesFBS (looping(n.reverse()),"black",randomNum(400),randomNum(400),ctx);
 
   ctxd.strokeStyle = "black";
-  ctxd.lineWidth=30;
+  ctxd.lineWidth=10;
   ctxd.fillRect(0,0,590,400);
 
   bezierDraw2(4500,295,200,"blue",1,ctxd);
