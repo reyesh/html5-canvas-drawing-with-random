@@ -22,12 +22,38 @@
 
     var colors = ["blue","red","green","yellow","orange"];
 
-    ctx.fillStyle = "yellow";
+    ctx.fillStyle = "white";
     ctx.fillRect(0,0,400,400);
 
     function randomNum(num){
       return Math.floor(Math.random()*(num));
     }
+
+    function r2degrees(x){
+      return (x * (Math.PI/180));
+    }
+
+    function randomNumBetween(min,max){
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    var n = [10];
+
+    var looping = function(n) {
+        var m = [];
+        var a = 0, b = 1, f = 1;
+        for(var i = 2; i <= n[0]; i++) {
+            f = a + b;
+            a = b;
+            b = f;
+            m[i-2] = f;
+        }
+        f = m;
+//        f[1] = i;
+        return f;
+    };
+
+    console.log(looping(n));
 
     rColor = colors[randomNum(colors.length)];
 
@@ -67,46 +93,32 @@
 
   }
 
-  function r2degrees(x){
-    return (x * (Math.PI/180));
-  }
 
-  function randomNumBetween(num1,num2){
-
-    Rnum = Math.floor(Math.random()*(num2));
-
-    while (Rnum<num1){
-      Rnum = Math.floor(Math.random()*(num2));
-    }
-
-    return Rnum;
-
-  }
-
-
-  function cireverywhere (l,c,x,y){
+  function circlesEverywhere (l,c,x,y,fctx){
     var x2 = randomNum(400);
     var y2 = randomNum(400);
-    var sa = randomNumBetween(350,360);
-    var ea = randomNumBetween(350,360);
-    var rs = randomNumBetween(50,900);
-    console.log(sa + " " + ea);
+    var sa = 0; //randomNumBetween(350,360);
+    var ea = 360; //randomNumBetween(350,360);
+    var rs = randomNumBetween(1,8);
 
-    ctx.beginPath();
-    ctx.strokeStyle=c;
+    fctx.beginPath();
+    fctx.strokeStyle=c;
+    fctx.fillStyle=c;
 
-    ctx.lineWidth=1;
+    fctx.lineWidth=1;
 //    ctx.beginPath();
   //  ctx.moveTo(x, y);
 
     if(l==0){
-      ctx.arc(x,y,rs,r2degrees(sa),r2degrees(ea));
-      ctx.stroke();
+      fctx.arc(x,y,rs,r2degrees(sa),r2degrees(ea));
+      fctx.stroke();
+      fctx.fill();
     }else{
       l=l-1;
-      ctx.arc(x,y,rs,r2degrees(sa),r2degrees(ea));
-      ctx.stroke();
-      cireverywhere(l,c,x2,y2);
+      fctx.arc(x,y,rs,r2degrees(sa),r2degrees(ea));
+      fctx.stroke();
+      fctx.fill();
+      circlesEverywhere(l,c,x2,y2,fctx);
     }
 
   }
@@ -147,8 +159,15 @@
 
   //  cireverywhere(200,"red",200,200);
 
-  var f =false;
-  cirs("green",200,200,300);
+  //var f =false;
+  //cirs("green",200,200,300);
+  //circlesEverywhere(200,"red",200,200,ctx);
+  //circlesEverywhere(200,"green",200,200,ctx);
+  //circlesEverywhere(200,"blue",200,200,ctx);
+  circlesEverywhere(300,"yellow",200,200,ctx);
+  circlesEverywhere(200,"green",200,200,ctx);
+  circlesEverywhere(200,"red",200,200,ctx);
+  circlesEverywhere(300,"black",200,200,ctx);
 
   ctxd.strokeStyle = "black";
   ctxd.lineWidth=30;
@@ -156,7 +175,7 @@
 
   bezierDraw2(4500,295,200,"blue",1,ctxd);
   bezierDraw2(1500,295,200,"green",1,ctxd);
-  bezierDraw2(300,295,200,"red",1,ctxd);
+  bezierDraw2(9,295,200,"red",5,ctxd);
 
 
   //  ctx.strokeStyle="red";
@@ -182,6 +201,15 @@
     ctx.scale(2,3);
 
 
+    var recursive = function(n) {
+        if(n <= 2) {
+            return 1;
+        } else {
+            return this.recursive(n - 1) + this.recursive(n - 2);
+        }
+    };
+
+    console.log(recursive(10));
 
   </script>
 </body>
