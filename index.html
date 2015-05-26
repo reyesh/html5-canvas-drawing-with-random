@@ -20,7 +20,7 @@
     ctx.lineWidth=1;
 
 
-    var colors = ["blue","red","green","yellow","orange","black"];
+    var colors = ["red","orange","yellow","green","blue","indigo","violet"];
 
     ctx.fillStyle = "white";
     ctx.fillRect(0,0,400,400);
@@ -37,23 +37,19 @@
       return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    var n = [10];
-
     var looping = function(n) {
         var m = [];
         var a = 0, b = 1, f = 1;
-        for(var i = 2; i <= n[0]; i++) {
+        for(var i = 2; i <= n; i++) {
             f = a + b;
             a = b;
             b = f;
             m[i-2] = f;
         }
-        f = m;
-//        f[1] = i;
-        return f;
+        return m;
     };
 
-    console.log(looping(n));
+    console.log(looping(10));
 
     rColor = colors[randomNum(colors.length)];
 
@@ -168,7 +164,7 @@
     fctx.fillStyle=c;
     fctx.fillStyle=colors[randomNum(colors.length)];
 
-    fctx.lineWidth=3;
+    fctx.lineWidth=5;
 //    ctx.beginPath();
   //  ctx.moveTo(x, y);
     l=la.length;
@@ -204,8 +200,11 @@
   circlesEverywhere(200,"red",200,200,ctx);
   circlesEverywhere(300,"black",200,200,ctx);
   */
-  n = [50];
-  circlesFBS (looping(n.reverse()),"black",randomNum(400),randomNum(400),ctx);
+  var m = [];
+  m = looping(20)
+  console.log(m);
+  //ctx.scale(.9,.9);
+  circlesFBS (m,"black",randomNum(400),randomNum(400),ctx);
 
   ctxd.strokeStyle = "black";
   ctxd.lineWidth=10;
@@ -234,9 +233,15 @@
     //bezierDraw2(400,x,y,"white",.5);
 
     ctx.strokeStyle = "black";
-    ctx.lineWidth=30;
+    ctx.lineWidth=10;
     ctx.strokeRect(0,0,400,400);
-    ctx.scale(2,3);
+
+    ctx.strokeStyle = "white";
+    ctx.lineWidth=2;
+    ctx.strokeRect(5,5,390,390);
+    ctx.font = "12px Arial";
+    ctx.strokeText("Marshmallow!",100, 40);
+    ctx.fillText("Marshmallow!",100, 40);
 
 
     var recursive = function(n) {
