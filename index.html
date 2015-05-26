@@ -2,6 +2,7 @@
 
 <html>
 <head>
+  <meta charset="UTF-8"> 
 </head>
 <body>
   <canvas id="c" width="400" height="400"></canvas>
@@ -236,12 +237,15 @@
     ctx.lineWidth=10;
     ctx.strokeRect(0,0,400,400);
 
-    ctx.strokeStyle = "white";
-    ctx.lineWidth=2;
+    ctx.strokeStyle = "black";
+  //  ctx.lineWidth=10;
+    ctx.fillStyle = "white";
+    ctx.lineWidth=3;
     ctx.strokeRect(5,5,390,390);
-    ctx.font = "12px Arial";
-    ctx.strokeText("Marshmallow!",100, 40);
-    ctx.fillText("Marshmallow!",100, 40);
+    ctx.font = "36px Impact";
+    ctx.textAlign = "center";
+    ctx.strokeText("CANVAS MEMES",c.width / 2, 40);
+    ctx.fillText("CANVAS MEMES",c.width/2, 40);
 
 
     var recursive = function(n) {
