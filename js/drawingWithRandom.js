@@ -1,3 +1,8 @@
+/*
+	 Drawing class for each new canvas painting. You need to provide ID
+	 width and height. cicrle_x, cicrle_y, and rs (radius size) are used to created
+	 a circle on canvas to move around.
+*/
 var Drawing = function(id,h,w) {
 	var obj = { id: id,
               width: w,
@@ -9,8 +14,13 @@ var Drawing = function(id,h,w) {
   $.extend(obj, Drawing.methods);
 	return obj;
 };
-
+/*
+	Shared methonds for functional Drawing class
+*/
 Drawing.methods = {
+/* for every new Drawing class you will need to initialize first. This will set
+	 the id, width and height of the newely formed canvas element on index.
+*/
   initCanvas: function() {
     var blankCanvas = '<canvas id="%data_id%" width="%data_w%" height="%data_h%">.</canvas>';
     formattedBlankCanvas = blankCanvas.replace("%data_id%",this.id);
@@ -18,6 +28,8 @@ Drawing.methods = {
     formattedBlankCanvas = formattedBlankCanvas.replace("%data_h%",this.height);
     $("#main").append(formattedBlankCanvas);
   },
+/*	Set the background color of canvas
+*/
   canvasColor: function(color){
     var c = document.querySelector("#"+this.id);
     var ctx = c.getContext("2d");
@@ -25,6 +37,9 @@ Drawing.methods = {
     this.canvasColor=color;
     ctx.fillRect(0,0,this.width,this.height);
   },
+/* Set a frame around the canvas, pass in color and the margain size.
+	 you can layer several to create a better looking frame.
+*/
   frameV2: function(color,fsize){
     var c = document.querySelector("#"+this.id);
     var ctx = c.getContext("2d");
@@ -34,19 +49,31 @@ Drawing.methods = {
     ctx.fillRect(0,this.height,this.width,-fsize);
     ctx.fillRect(this.width,0,-fsize,this.height);
   },
+/*	Random function returns any number between 0 and num
+*/
   randomNum: function(num){
     return Math.floor(Math.random()*(num));
   },
+/* Since the built in circle function take radian, here's a converter
+	 that converts radian to degree.
+*/
   r2degrees: function(radians){
     return (radians * (Math.PI/180));
   },
+/*	Random function, returns any number betwen min and max
+*/
   randomNumBetween: function(min,max){
     return Math.floor(Math.random() * (max - min)) + min;
   },
+/*	returns a random color available from the color array.
+*/
 	randomColor: function(){
 		var colors = ["red","orange","yellow","green","blue","indigo","violet","black","white"];
 		return colors[this.randomNum(colors.length)];
 	},
+/* Draws one line random depending on canvas width and height.
+	 Takes in size of stroke and color.
+*/
   drawLines: function (strkS,color){
     var c = document.querySelector("#"+this.id);
     var ctx = c.getContext("2d");
@@ -57,6 +84,9 @@ Drawing.methods = {
     ctx.lineTo(this.randomNum(this.width),this.randomNum(this.height));
     ctx.stroke();
   },
+/* Draws one circle, you to specify, fill color, stroke color, line size, mininum size
+	 of circle and maxinum size for circle.
+*/
   drawCirle: function(fColor,lColor,line,min,max){
     var c = document.querySelector("#"+this.id);
     var ctx = c.getContext("2d");
@@ -75,6 +105,11 @@ Drawing.methods = {
     ctx.stroke();
     ctx.fill();
   },
+/* Draws a bezier line randomly depending on width and height of canvas, unlike the
+	 line function method this one bends, and the function of recursive. The first
+	 parameter 'l' tells it how many times the function will call it self, the bezier
+	 line will be continuous, color is color of line, and ss is the lines thickness.
+*/
   bezierDraw: function (l,color,ss){
     var c = document.querySelector("#"+this.id);
     var ctx = c.getContext("2d");
@@ -85,6 +120,8 @@ Drawing.methods = {
     this.bezierDrawRR(l,x,y,color,ss,ctx);
 
   },
+/* this is part of function bezierDraw
+*/
   bezierDrawRR: function(l,x,y,color,ss,fctx){
     fctx.strokeStyle=color;
     fctx.lineWidth=ss;
@@ -103,6 +140,8 @@ Drawing.methods = {
       this.bezierDrawRR(l,ex,ey,color,ss,fctx);
     }
   },
+/* erase the canvas, used with requestAnimationDraw()
+*/
   eraseCanvas: function(){
     var c = document.querySelector("#"+this.id);
     var ctx = c.getContext("2d");
@@ -110,14 +149,17 @@ Drawing.methods = {
 		ctx.clearRect(0,0,this.width,this.height);
 		ctx.fillRect(0,0,this.width,this.height);
   },
-  expCircle: function(fColor,lColor,line,min,max){
+/* draws a circle on canvas this circle x and y coordinates are stored in the obj
+	 along with the size of the cirle. This function was entended to be used with
+	 requestAnimationDraw to be moved and resize with keyboard keys
+*/
+  expCircle: function(fColor,lColor,line){
     var c = document.querySelector("#"+this.id);
     var ctx = c.getContext("2d");
     var x = this.cicrle_x;
     var y = this.cicrle_y;
     var sa = 0; //start of angle
     var ea = 360; //end of angle, starting at 0, ending at 260 gives you a comple cicrle
-    var rs = this.randomNumBetween(min,max);
 		var rs = this.rs;
     ctx.beginPath();
     ctx.strokeStyle=lColor;
@@ -129,26 +171,9 @@ Drawing.methods = {
     ctx.stroke();
     ctx.fill();
   },
-	expLine(){
-		var c = document.querySelector("#"+this.id);
-		var ctx = c.getContext("2d");
-		var i = 10;
-		var x = 100;
-		var y = 100;
-		var x2 = x+10;
-		var y2 = y;
-	  ctx.rotate(this.r2degrees(this.randomNum(360)));
-
-		ctx.beginPath();
-		ctx.strokeStyle = "black";
-		ctx.moveTo(x,y);
-		ctx.lineTo(x2,y2);
-		ctx.stroke();
-
-	},
-	expLineRR(i){
-
-	},
+/* The following four function are used to moved the circle that was created
+	 using expCircle.
+*/
   moveCirlePlus: function(){
 		this.cicrle_x += 10;
   },
@@ -161,6 +186,9 @@ Drawing.methods = {
 	moveCirleYMinus: function(){
 		this.cicrle_y -= 10;
 	},
+/* the following functions are used to change the radius of cirlce that was created
+	 using expCircle.
+*/
 	blowCirlePlus: function(){
 		this.rs += 10;
 	},
@@ -170,55 +198,47 @@ Drawing.methods = {
 
 
 };
-
+/* for painting_1 it's an example of how expCircle works with requestAnimationFrame
+*/
 var painting_1 = Drawing("c",400,800);
 painting_1.initCanvas();
 painting_1.canvasColor("yellow");
-painting_1.bezierDraw(10,"red",5);
-painting_1.drawCirle("red","red",1,20,50);
 painting_1.frameV2("black",7);
-var k = new Kibo();
 
 function draw() {
         requestAnimationFrame(draw);
         painting_1.eraseCanvas();
         //painting_1.bezierDraw(10,"red",5);
         //painting_1.drawCirle("red","red",1,40,80);
-        painting_1.expCircle("red","red",1,40,41);
+        painting_1.expCircle("white","red",10);
         painting_1.frameV2("black",7);
       //  processInput();
 }
 
 draw();
-console.log(painting_1);
+var k = new Kibo();
+k.down(['right'], function() {
+	painting_1.moveCirlePlus();
+  console.log('right key pressed');
+}).down('left', function() {
+	painting_1.moveCirleMinus();
+  console.log('left key pressed');
+}).down('up', function(){
+  painting_1.moveCirleYMinus();
+}).down('down', function(){
+	painting_1.moveCirleYPlus();
+	document.body.style.overflowY = "hidden";
+}).up('down', function(){
+	document.body.style.overflowY = "scroll";
+}).down('d', function(){
+	painting_1.blowCirlePlus();
+}).down('e', function(){
+	painting_1.blowCirleMinus();
+});
 
-
-//function processInput() {
-	k.down(['right'], function() {
-		painting_1.moveCirlePlus();
-	  console.log('right key pressed');
-	}).down('left', function() {
-		painting_1.moveCirleMinus();
-	  console.log('left key pressed');
-	}).down('up', function(){
-	  painting_1.moveCirleYMinus();
-	}).down('down', function(){
-		painting_1.moveCirleYPlus();
-		document.body.style.overflowY = "hidden";
-	}).up('down', function(){
-		document.body.style.overflowY = "scroll";
-	}).down('d', function(){
-		painting_1.blowCirlePlus();
-	}).down('e', function(){
-		painting_1.blowCirleMinus();
-	});
-
-	$( "#c" ).keydown(function() {
-		painting_1.moveCirleXPlus
-		});
-
-//}
-
+/* For painting_2, since most function draw once you can used for loops to draw
+	 a lot more on the canvas.
+*/
 var painting_2 = Drawing("d",400,500);
 painting_2.initCanvas();
 painting_2.canvasColor("yellow");
@@ -240,6 +260,9 @@ painting_2.frameV2("black", 11);
 painting_2.frameV2("grey", 10);
 painting_2.frameV2("black", 5);
 
+/* for painting_3 another complex drawing using lines and circles, and a nicer frame
+*/
+
 var painting_3 = Drawing("f",400,400);
 painting_3.initCanvas();
 painting_3.canvasColor("black");
@@ -260,18 +283,20 @@ painting_3.frameV2("black",10);
 painting_3.frameV2("grey",9);
 painting_3.frameV2("black",5);
 
-var painting_4 = Drawing("g",200,200);
-painting_4.initCanvas();
-painting_4.canvasColor("yellow");
-painting_4.expLine();
+/* Example of the bezierDraw function
+*/
+var painting_5 = Drawing('q',600,600);
+painting_5.initCanvas();
+painting_5.canvasColor("grey");
+painting_5.bezierDraw(200,'red', .4);
+painting_5.bezierDraw(200,'yellow', .4);
+painting_5.frameV2("black",20);
+
 
 var c = document.querySelector("#f");
-
 function handleMouseClick(evt) {
         x = evt.clientX - c.offsetLeft;
         y = evt.clientY - c.offsetTop;
         console.log("x,y:"+x+","+y);
 }
 c.addEventListener("click", handleMouseClick, false);
-
-console.log(painting_3.randomColor());
