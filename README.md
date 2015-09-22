@@ -26,3 +26,5 @@ painting_5.frameV2("black",5);
 The above code creates:
 
 ![](http://i.imgur.com/xxJrQtS.png?1)
+
+*note that it's never the same drawing after reloading the page, hense title of the project "drawing with random"*
